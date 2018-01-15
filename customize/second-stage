@@ -1,0 +1,75 @@
+#!/bin/bash
+
+distro=trusty
+export LC_ALL=C LANGUAGE=C LANG=C
+
+if [ -e /debootstrap/debootstrap ]; then
+/debootstrap/debootstrap --second-stage
+fi
+
+cat <<EOT > /etc/apt/sources.list  
+deb http://ports.ubuntu.com/ubuntu-ports/ $distro main restricted universe multiverse  
+deb http://ports.ubuntu.com/ubuntu-ports/ $distro-updates main restricted universe multiverse  
+deb http://ports.ubuntu.com/ubuntu-ports/ $distro-security main restricted universe multiverse  
+EOT
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 40976EAF437D05B5
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
+apt-get -y update
+apt -y -f install
+
+chmod +x /root/install_packages
+/root/install_packages
+
+# set root passwd
+ROOT_PASSWD="root"
+echo "default root passwd: ${ROOT_PASSWD}"
+expect << EOF
+spawn passwd root
+expect "Enter new UNIX password:"
+send "${ROOT_PASSWD}\n"
+expect "Retype new UNIX password:"
+send "${ROOT_PASSWD}\n"
+expect "passwd: password updated successfully"
+exit
+EOF
+
+# add user
+USER_NAME="zengjf"
+USER_PASSWD="zengjf"
+if [ -d "/home/${USER_NAME}" ]; then
+    deluser ${USER_NAME}
+    delgroup ${USER_NAME}
+    rm /home/${USER_NAME} -r
+fi
+
+echo "default username and passwd: ${USER_NAME} ${USER_PASSWD}"
+expect << EOF
+spawn adduser ${USER_NAME}
+expect "password:"
+send "${USER_PASSWD}\n"
+expect "password:"
+send "${USER_PASSWD}\n"
+expect "\]:"
+send "\n"
+expect "\]:"
+send "\n"
+expect "\]:"
+send "\n"
+expect "\]:"
+send "\n"
+expect "\]:"
+send "\n"
+expect "Y/n\]"
+send "y\n"
+exit
+EOF
+
+# add super user
+sed -i "/root\tALL=(ALL:ALL) ALL/a${USER_NAME}\tALL=(ALL:ALL) ALL" /etc/sudoers
+
+echo
+echo "start clean package."
+# apt-get -y update --fix-missing
+sudo apt-get autoclean && sudo apt-get clean && sudo apt-get autoremove
+echo "end clean package."
+exit

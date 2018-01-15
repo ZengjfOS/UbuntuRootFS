@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "start install packages."
+
+# add your packages here, format:
+#     apt-get install <package name>
+apt-get -y install expect 
+
+echo "end install packages."
