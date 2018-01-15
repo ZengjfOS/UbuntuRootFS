@@ -28,12 +28,18 @@ all:
 	# chroot to arm qemu and run second-stage script
 	# -sudo umount -lf `pwd`/$(target)/dev/pts
 	# -sudo umount -lf `pwd`/$(target)/dev
-	sudo mount -v --bind /dev $(target)/dev
-	sudo mount -vt devpts devpts $(target)/dev/pts
+	sudo mount -v --bind /dev `pwd`/$(target)/dev
+	sudo mount -v --bind /dev/pts `pwd`/$(target)/dev/pts
+	sudo mount -v --bind /proc `pwd`/$(target)/proc
+	sudo mount -v --bind /sys `pwd`/$(target)/sys
 	sudo ls $(target)/dev
+	sudo ls $(target)/dev/pts
 	sudo chroot $(target) /bin/bash -c /root/second-stage
-	-sudo umount -lf `pwd`/$(target)/dev/pts
-	-sudo umount -lf `pwd`/$(target)/dev
+	-sudo umount `pwd`/$(target)/sys
+	-sudo umount `pwd`/$(target)/proc
+	-sudo umount `pwd`/$(target)/dev/pts
+	-sudo umount `pwd`/$(target)/dev
+	sudo ls $(target)/dev/pts
 	sudo ls $(target)/dev
 
 	# default config
