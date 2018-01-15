@@ -15,10 +15,12 @@ EOT
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 40976EAF437D05B5
 apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
 apt-get -y update
-apt -y -f install
+apt-get -y -f install
 
 chmod +x /root/install_packages
 /root/install_packages
+
+apt-get -y -f install
 
 # set root passwd
 ROOT_PASSWD="root"

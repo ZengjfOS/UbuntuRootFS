@@ -24,20 +24,15 @@ all:
 	sudo cp -v /etc/resolv.conf $(target)/etc
 	sudo cp -v customize/second-stage $(target)/root/second-stage
 	sudo cp -v customize/install_packages $(target)/root/install_packages
-	sudo mkdir customize/rootfs/dev/ -p
-	sudo cp -v $(target)/dev/* customize/rootfs/dev/ -r
 
 	# chroot to arm qemu and run second-stage script
-	-sudo umount -lf `pwd`/$(target)/dev/pts
-	-sudo umount -lf `pwd`/$(target)/dev
+	# -sudo umount -lf `pwd`/$(target)/dev/pts
+	# -sudo umount -lf `pwd`/$(target)/dev
 	sudo mount -v --bind /dev $(target)/dev
 	sudo mount -vt devpts devpts $(target)/dev/pts
 	sudo chroot $(target) /bin/bash -c /root/second-stage
 	-sudo umount -lf `pwd`/$(target)/dev/pts
 	-sudo umount -lf `pwd`/$(target)/dev
-	sudo rm $(target)/dev/* -r
-	sudo cp -v customize/rootfs/dev/* $(target)/dev/ -r
-	sudo rm customize/rootfs/dev -rf
 
 	# default config
 	sudo cp -v customize/passwd $(target)/etc/passwd
