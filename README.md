@@ -64,5 +64,5 @@ Report bugs to <upstart-devel@lists.ubuntu.com>
 root@zengjf:/etc/init#
 ```
 
-* 由上mail可知，改init程序是Upstart init daemon；
+* 由上mail可知，该init程序是Upstart init daemon；
 * [Upstart Init Ref](http://manpages.ubuntu.com/manpages/trusty/man5/init.5.html)
