@@ -16,15 +16,14 @@ all:
 	 
 	# get first step source
 	echo "start debootstrap."
-	# -sudo debootstrap --arch=armhf --foreign --include=ubuntu-keyring,apt-transport-https,ca-certificates,openssl,rsyslog $(distro) "$(target)" http://ports.ubuntu.com
-	-sudo debootstrap --variant=minbase --arch=armhf --foreign $(distro) "$(target)" http://ports.ubuntu.com
+	-sudo debootstrap --arch=armhf --foreign  $(distro) "$(target)" http://ports.ubuntu.com
+	# -sudo debootstrap --variant=minbase --arch=armhf --foreign $(distro) "$(target)" http://ports.ubuntu.com
 	echo "end debootstrap."
 
 	# auto run default script
 	sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
 	sudo cp -v /etc/resolv.conf $(target)/etc
 	sudo cp -v customize/bin/* $(target)/root/
-	sudo cp -vr customize/rootfs/* $(target)
 
 	sudo chroot $(target) /bin/bash -c /root/second-stage
 
@@ -46,9 +45,13 @@ all:
 	sudo ls $(target)/dev
 
 	# remove default script
-	sudo rm $(target)/root/* -rf
-	sudo rm $(target)/etc/resolv.conf
+	sudo rm $(target)/root/install_packages -rf
+	sudo rm $(target)/root/second-stage -rf
+	sudo rm $(target)/root/third-stage -rf
 	sudo rm $(target)/usr/bin/qemu-arm-static
+
+	# copy modify etc file
+	sudo cp -vr customize/rootfs/* $(target)/
 
 qemu:
 	sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
@@ -64,6 +67,10 @@ umnt:
 	-sudo umount `pwd`/$(target)/proc
 	-sudo umount `pwd`/$(target)/dev/pts
 	-sudo umount `pwd`/$(target)/dev
+
+bz2: umnt
+	-sudo rm rootfs/rootfs.tar.bz2
+	cd rootfs && sudo fakeroot -- tar jcvf rootfs.tar.bz2 *
 
 clean:
 	sudo rm rootfs -rf
