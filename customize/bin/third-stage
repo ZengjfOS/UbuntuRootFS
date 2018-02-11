@@ -1,0 +1,25 @@
+#!/bin/bash
+
+distro=trusty
+export LC_ALL=C LANGUAGE=C LANG=C
+
+chmod +x /root/install_packages
+/root/install_packages
+
+# set root passwd
+echo "root:root" | chpasswd
+
+# add user
+USER_NAME="aplexos"
+USER_PASSWD="aplexos"
+echo "default username and passwd: ${USER_NAME} ${USER_PASSWD}"
+useradd -m -p $USER_PASSWD $USER_NAME 
+# add super user
+sed -i "/root\tALL=(ALL:ALL) ALL/a${USER_NAME}\tALL=(ALL:ALL) ALL" /etc/sudoers
+
+echo
+echo "start clean package."
+# apt-get -y update --fix-missing
+sudo apt-get autoclean && sudo apt-get clean && sudo apt-get autoremove
+echo "end clean package."
+exit

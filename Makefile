@@ -16,14 +16,17 @@ all:
 	 
 	# get first step source
 	echo "start debootstrap."
-	-sudo debootstrap --arch=armhf --foreign --include=ubuntu-keyring,apt-transport-https,ca-certificates,openssl $(distro) "$(target)" http://ports.ubuntu.com
+	# -sudo debootstrap --arch=armhf --foreign --include=ubuntu-keyring,apt-transport-https,ca-certificates,openssl,rsyslog $(distro) "$(target)" http://ports.ubuntu.com
+	-sudo debootstrap --variant=minbase --arch=armhf --foreign $(distro) "$(target)" http://ports.ubuntu.com
 	echo "end debootstrap."
 
 	# auto run default script
 	sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
 	sudo cp -v /etc/resolv.conf $(target)/etc
-	sudo cp -v customize/second-stage $(target)/root/second-stage
-	sudo cp -v customize/install_packages $(target)/root/install_packages
+	sudo cp -v customize/bin/* $(target)/root/
+	sudo cp -vr customize/rootfs/* $(target)
+
+	sudo chroot $(target) /bin/bash -c /root/second-stage
 
 	# chroot to arm qemu and run second-stage script
 	# -sudo umount -lf `pwd`/$(target)/dev/pts
@@ -34,7 +37,7 @@ all:
 	sudo mount -v --bind /sys `pwd`/$(target)/sys
 	sudo ls $(target)/dev
 	sudo ls $(target)/dev/pts
-	sudo chroot $(target) /bin/bash -c /root/second-stage
+	sudo chroot $(target) /bin/bash -c /root/third-stage
 	-sudo umount `pwd`/$(target)/sys
 	-sudo umount `pwd`/$(target)/proc
 	-sudo umount `pwd`/$(target)/dev/pts
@@ -42,14 +45,25 @@ all:
 	sudo ls $(target)/dev/pts
 	sudo ls $(target)/dev
 
-	# default config
-	sudo cp -v customize/passwd $(target)/etc/passwd
-
 	# remove default script
-	sudo rm $(target)/root/second-stage
-	sudo rm $(target)/root/install_packages
+	sudo rm $(target)/root/* -rf
 	sudo rm $(target)/etc/resolv.conf
 	sudo rm $(target)/usr/bin/qemu-arm-static
+
+qemu:
+	sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
+
+mnt: qemu
+	sudo mount -v --bind /dev `pwd`/$(target)/dev
+	sudo mount -v --bind /dev/pts `pwd`/$(target)/dev/pts
+	sudo mount -v --bind /proc `pwd`/$(target)/proc
+	sudo mount -v --bind /sys `pwd`/$(target)/sys
+
+umnt:
+	-sudo umount `pwd`/$(target)/sys
+	-sudo umount `pwd`/$(target)/proc
+	-sudo umount `pwd`/$(target)/dev/pts
+	-sudo umount `pwd`/$(target)/dev
 
 clean:
 	sudo rm rootfs -rf

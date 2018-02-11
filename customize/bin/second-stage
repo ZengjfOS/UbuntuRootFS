@@ -1,0 +1,19 @@
+#!/bin/bash
+
+distro=trusty
+export LC_ALL=C LANGUAGE=C LANG=C
+
+if [ -e /debootstrap/debootstrap ]; then
+/debootstrap/debootstrap --second-stage
+fi
+
+cat <<EOT > /etc/apt/sources.list  
+deb http://ports.ubuntu.com/ubuntu-ports/ $distro main restricted universe multiverse  
+deb http://ports.ubuntu.com/ubuntu-ports/ $distro-updates main restricted universe multiverse  
+deb http://ports.ubuntu.com/ubuntu-ports/ $distro-security main restricted universe multiverse  
+EOT
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 40976EAF437D05B5
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
+apt-get -y update
+
+exit

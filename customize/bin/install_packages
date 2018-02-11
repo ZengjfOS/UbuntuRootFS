@@ -4,6 +4,6 @@ echo "start install packages."
 
 # add your packages here, format:
 #     apt-get install <package name>
-apt-get -y install expect 
+apt-get -y install sudo
 
 echo "end install packages."
