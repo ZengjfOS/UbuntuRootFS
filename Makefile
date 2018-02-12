@@ -1,5 +1,6 @@
 target = rootfs
-distro = trusty
+# distro = trusty
+distro = xenial
 
 all:
 	# install host packages
@@ -16,14 +17,14 @@ all:
 	 
 	# get first step source
 	echo "start debootstrap."
-	-sudo debootstrap --arch=armhf --foreign  $(distro) "$(target)" http://ports.ubuntu.com
+	-sudo debootstrap --arch=armhf --include=ubuntu-keyring,apt-transport-https,ca-certificates,openssl --foreign  $(distro) "$(target)" http://ports.ubuntu.com
 	# -sudo debootstrap --variant=minbase --arch=armhf --foreign $(distro) "$(target)" http://ports.ubuntu.com
 	echo "end debootstrap."
 
 	# auto run default script
 	sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
 	sudo cp -v /etc/resolv.conf $(target)/etc
-	sudo cp -v customize/bin/* $(target)/root/
+	sudo cp -v customize/bin/${distro}/* $(target)/root/
 
 	sudo chroot $(target) /bin/bash -c /root/second-stage
 
@@ -45,13 +46,11 @@ all:
 	sudo ls $(target)/dev
 
 	# remove default script
-	sudo rm $(target)/root/install_packages -rf
-	sudo rm $(target)/root/second-stage -rf
-	sudo rm $(target)/root/third-stage -rf
+	sudo sh -c "cd $(target)/root/ &&  rm * -r"
 	sudo rm $(target)/usr/bin/qemu-arm-static
 
 	# copy modify etc file
-	sudo cp -vr customize/rootfs/* $(target)/
+	sudo cp -vr customize/rootfs/${distro}/* $(target)/
 
 qemu:
 	sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin

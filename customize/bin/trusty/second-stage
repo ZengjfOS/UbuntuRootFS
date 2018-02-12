@@ -1,6 +1,6 @@
 #!/bin/bash
 
-distro=trusty
+distro=xenial
 export LC_ALL=C LANGUAGE=C LANG=C
 
 if [ -e /debootstrap/debootstrap ]; then
