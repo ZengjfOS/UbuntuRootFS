@@ -21,7 +21,8 @@
 ## pre-install package
 
 在这里面加入需要预安装的`packages`：
-* [customize/bin/install_packages](customize/bin/install_packages)
+* [Trusty pre-install package](customize/bin/trusty/install_packages)
+* [Xenial pre-install package](customize/bin/xenial/install_packages)
 
 ## Init Type
 
