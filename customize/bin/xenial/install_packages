@@ -10,5 +10,6 @@ apt-get -y install vim
 apt-get -y install openssh-server
 apt-get -y install openssh-client
 apt-get -y install vsftpd
+apt-get -y install gcc
 
 echo "end install packages."

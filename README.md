@@ -29,3 +29,8 @@
 Trusty是14.04的代号，Xenial是16.04的代号，两者的init程序是不一样的：
 * [Trusty Upstart Init Ref](http://manpages.ubuntu.com/manpages/trusty/man5/init.5.html)
 * [Xenial Systemd Init Ref](http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html)
+
+## Custom Ubuntu Core
+
+* 参考文档：https://docs.ubuntu.com/core/en/
+* Build a custom Ubuntu Core image: https://docs.ubuntu.com/core/en/guides/build-device/image-building
