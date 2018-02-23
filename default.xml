@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <remote  name="ubuntu"
+           fetch="https://github.com/ZengjfOS" />
+
+  <default revision="master"
+           remote="ubuntu"
+           sync-j="4" />
+
+  <remote name="Buildroot"
+        fetch="https://github.com/ZengjfOS" />
+
+  <project path="packages/Buzzer_Tool" name="Buildroot" sync-c="true" remote="Buildroot" revision="Buzzer_Tool" />
+
+  <project path="Manifest" name="UbuntuRootFS" sync-c="true" revision="Manifest" />
+</manifest>
