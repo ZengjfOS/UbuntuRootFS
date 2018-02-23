@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # auto start script
 # http://blog.csdn.net/sinat_36219858/article/details/61195905?locationNum=7&fps=1
 # http://blog.csdn.net/shb_derek1/article/details/8489112

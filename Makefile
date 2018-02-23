@@ -1,8 +1,11 @@
 target = rootfs
 # distro = trusty
 distro = xenial
+packages_path = $(shell pwd)/$(target)/root/packages
+manifest_git = https://github.com/ZengjfOS/UbuntuRootFS.git
+branch_git = Manifest
 
-all: debootstrap factory
+all: debootstrap factory package
 	echo "End Of All."
 
 debootstrap:
@@ -53,8 +56,20 @@ factory:
 	sudo sh -c "cd $(target)/root/ &&  rm * -r"
 	sudo rm $(target)/usr/bin/qemu-arm-static
 
+package:
+	-sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
+	sudo cp -v customize/bin/${distro}/packages-stage $(target)/root/packages-stage
+	echo $(packages_path)
+	-sudo mkdir $(packages_path) && cd $(packages_path)
+	-sudo sh -c "cd $(packages_path) && sudo git clone git://git.omapzoom.org/git-repo.git"
+	-sudo sh -c "cd $(packages_path) && ./git-repo/repo init -u $(manifest_git) -b $(branch_git)"
+	-sudo sh -c "cd $(packages_path) && ./git-repo/repo sync --no-tags"
+	sudo cp packages rootfs/root/ -r
+
+	sudo chroot $(target) /bin/bash -c /root/packages-stage
+
 qemu:
-	sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
+	-sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
 
 mnt: qemu
 	sudo mount -v --bind /dev `pwd`/$(target)/dev
@@ -74,3 +89,4 @@ bz2: umnt
 
 clean:
 	sudo rm rootfs -rf
+	sudo rm packages -rf

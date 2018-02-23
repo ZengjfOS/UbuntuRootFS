@@ -15,5 +15,6 @@ apt-get -y install gcc
 # apt-get -y install php7.0 libapache2-mod-php7.0
 apt-get -y install busybox
 apt-get -y install php7.0-cgi
+apt-get -y install make
 
 echo "end install packages."

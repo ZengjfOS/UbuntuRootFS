@@ -1,2 +1,4 @@
 /rootfs/
 rootfs.tar.bz2
+/manifest/
+/packages/
