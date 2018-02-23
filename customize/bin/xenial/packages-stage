@@ -1,0 +1,27 @@
+#!/bin/bash
+
+manifest_git=https://github.com/ZengjfOS/UbuntuRootFS.git
+branch_git=packages
+
+export PATH=`pwd`/rootfs/usr/bin/${PATH}
+CROSS_COMPILE=arm-linux-gnueabihf-
+AS= ${CROSS_COMPILE}as
+LD=${CROSS_COMPILE}ld
+CC=${CROSS_COMPILE}gcc
+CPP=${CC} -E
+AR=${CROSS_COMPILE}ar
+NM=${CROSS_COMPILE}nm
+LDR=${CROSS_COMPILE}ldr
+STRIP=${CROSS_COMPILE}strip
+OBJCOPY=${CROSS_COMPILE}objcopy
+OBJDUMP=${CROSS_COMPILE}objdump
+
+mkdir packages && cd packages
+git clone git://git.omapzoom.org/git-repo.git
+./git-repo/repo init -u ${manifest_git} -b ${branch_git}
+./git-repo/repo sync --no-tags
+
+for file in `find * -type f -iname "Makefile"`; do
+	make -C $(dirname "${file}")
+done
+
