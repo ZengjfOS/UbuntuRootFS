@@ -5,6 +5,7 @@
            fetch="https://github.com/ZengjfOS" />
 
   <default revision="master"
+           sync-c="true"
            remote="ubuntu"
            sync-j="4" />
 
