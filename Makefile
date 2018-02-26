@@ -62,11 +62,11 @@ package:
 	echo $(packages_path)
 	-sudo mkdir $(packages_path) && cd $(packages_path)
 	-sudo sh -c "cd $(packages_path) && sudo git clone git://git.omapzoom.org/git-repo.git"
-	-sudo sh -c "cd $(packages_path) && ./git-repo/repo init -u $(manifest_git) -b $(branch_git)"
+	-sudo sh -c "cd $(packages_path) && ./git-repo/repo init -u $(manifest_git) -b $(branch_git) -c"
 	-sudo sh -c "cd $(packages_path) && ./git-repo/repo sync --no-tags"
-	sudo cp packages rootfs/root/ -r
 
 	sudo chroot $(target) /bin/bash -c /root/packages-stage
+	sudo sh -c "cd $(target)/root/ &&  rm * -r"
 
 qemu:
 	-sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
@@ -89,4 +89,4 @@ bz2: umnt
 
 clean:
 	sudo rm rootfs -rf
-	sudo rm packages -rf
+	sudo rm rootfs/root/packages -rf

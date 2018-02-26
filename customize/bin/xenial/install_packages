@@ -16,5 +16,6 @@ apt-get -y install gcc
 apt-get -y install busybox
 apt-get -y install php7.0-cgi
 apt-get -y install make
+apt-get -y install git
 
 echo "end install packages."

@@ -17,3 +17,5 @@ for file in `find /root/packages/ -type f -iname "Makefile"`; do
 	make -C $(dirname "${file}") && make -C $(dirname "${file}") install
 done
 
+exit
+
