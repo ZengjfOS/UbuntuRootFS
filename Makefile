@@ -1,9 +1,14 @@
-system_type=debian
-ftp_url = http://ftp.debian.org/debian/
-# ftp_url = http://ports.ubuntu.com
+# system_type=debian
+system_type=ubuntu
+
+# ftp_url = http://ftp.debian.org/debian/
+ftp_url = http://ports.ubuntu.com
+
+# distro = wheezy
+distro = xenial
+
 target = rootfs
-# distro = trusty
-distro = wheezy
+
 packages_path = $(shell pwd)/$(target)/root/packages
 manifest_git = https://github.com/ZengjfOS/UbuntuRootFS.git
 branch_git = Manifest

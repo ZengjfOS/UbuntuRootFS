@@ -8,6 +8,8 @@
 
 类似仓库：
 * https://github.com/hypriot/os-rootfs
+* [drtyhlpr/rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image)  
+  **这个仓库可以重点分析，这是树莓派Debian系统合成方法**
 
 ## Support System
 
@@ -26,7 +28,6 @@
 * [Can not write log, openpty() failed (/dev/pts not mounted?)](http://mqjing.blogspot.tw/2013/07/chroot-pts-w-can-not-write-log-openpty.html)
 * [Installing Ubuntu Rootfs on NXP i.MX6 boards](https://community.nxp.com/docs/DOC-330147)
 * [Debian on the i.MX6 sabre sd platform in a few commands](https://community.nxp.com/docs/DOC-95044)
-* [drtyhlpr/rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image)
 
 ## pre-install package
 
