@@ -9,6 +9,11 @@
 类似仓库：
 * https://github.com/hypriot/os-rootfs
 
+## Support System
+
+* Ubuntu 16.04(xenial)
+* Debian wheezy
+
 ## Refers
 
 * [Debian for ARM](http://www.cnblogs.com/zengjfgit/p/6413894.html)
@@ -20,6 +25,8 @@
 * [Make: how to continue after a command fails?](https://stackoverflow.com/questions/2670130/make-how-to-continue-after-a-command-fails)
 * [Can not write log, openpty() failed (/dev/pts not mounted?)](http://mqjing.blogspot.tw/2013/07/chroot-pts-w-can-not-write-log-openpty.html)
 * [Installing Ubuntu Rootfs on NXP i.MX6 boards](https://community.nxp.com/docs/DOC-330147)
+* [Debian on the i.MX6 sabre sd platform in a few commands](https://community.nxp.com/docs/DOC-95044)
+* [drtyhlpr/rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image)
 
 ## pre-install package
 

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true LC_ALL=C LANGUAGE=C LANG=C
+
+if [ -e /debootstrap/debootstrap ]; then
+/debootstrap/debootstrap --second-stage
+fi
+
+cat <<EOT > /etc/apt/sources.list  
+deb http://httpredir.debian.org/debian wheezy main contrib non-free
+deb-src http://httpredir.debian.org/debian wheezy main contrib non-free
+EOT
+# apt-get -y upgrade --fix-missing
+apt-get -y update
+
+exit

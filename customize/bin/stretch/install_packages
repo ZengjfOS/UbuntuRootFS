@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "start install packages."
+
+# add your packages here, format:
+#     apt-get install <package name>
+apt-get -y install sudo
+apt-get -y install locales
+apt-get -y install python3
+apt-get -y install vim
+apt-get -y install openssh-server
+apt-get -y install openssh-client
+apt-get -y install vsftpd
+apt-get -y install gcc
+# apt-get -y install apache2
+# apt-get -y install php7.0 libapache2-mod-php7.0
+apt-get -y install busybox
+apt-get -y install php7.0-cgi
+apt-get -y install make
+apt-get -y install git
+
+echo "end install packages."

@@ -1,11 +1,14 @@
+system_type=debian
+ftp_url = http://ftp.debian.org/debian/
+# ftp_url = http://ports.ubuntu.com
 target = rootfs
 # distro = trusty
-distro = xenial
+distro = wheezy
 packages_path = $(shell pwd)/$(target)/root/packages
 manifest_git = https://github.com/ZengjfOS/UbuntuRootFS.git
 branch_git = Manifest
 
-all: debootstrap factory package
+all: debootstrap secondstage factory package
 	echo "End Of All."
 
 debootstrap:
@@ -14,15 +17,25 @@ debootstrap:
 
 	# get first step source
 	echo "start debootstrap."
-	-sudo debootstrap --arch=armhf --include=ubuntu-keyring,apt-transport-https,ca-certificates,openssl --foreign  $(distro) "$(target)" http://ports.ubuntu.com
+ifeq ($(system_type), debian)
+	-sudo debootstrap --no-check-gpg --arch=armhf --foreign  $(distro) "$(target)" $(ftp_url)
+else
+	-sudo debootstrap --arch=armhf --include=$(system_type)-keyring,apt-transport-https,ca-certificates,openssl --foreign  $(distro) "$(target)" $(ftp_url)
+endif
 	echo "end debootstrap."
+
+secondstage:
 
 	# auto run default script
 	sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
 	sudo cp -v /etc/resolv.conf $(target)/etc
 	sudo cp -v customize/bin/${distro}/* $(target)/root/
 
+ifeq ($(system_type), debian)
+	sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true LC_ALL=C LANGUAGE=C LANG=C chroot $(target) /bin/bash -c /root/second-stage
+else
 	sudo chroot $(target) /bin/bash -c /root/second-stage
+endif
 
 factory:
 	# auto run default script
@@ -49,8 +62,8 @@ factory:
 	-sudo umount `pwd`/$(target)/proc
 	-sudo umount `pwd`/$(target)/dev/pts
 	-sudo umount `pwd`/$(target)/dev
-	sudo ls $(target)/dev/pts
-	sudo ls $(target)/dev
+	-sudo ls $(target)/dev/pts
+	-sudo ls $(target)/dev
 
 	# remove default script
 	sudo sh -c "cd $(target)/root/ &&  rm * -r"
@@ -60,7 +73,7 @@ package:
 	-sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
 	sudo cp -v customize/bin/${distro}/packages-stage $(target)/root/packages-stage
 	echo $(packages_path)
-	-sudo mkdir $(packages_path) && cd $(packages_path)
+	-sudo mkdir $(packages_path)
 	-sudo sh -c "cd $(packages_path) && sudo git clone git://git.omapzoom.org/git-repo.git"
 	-sudo sh -c "cd $(packages_path) && ./git-repo/repo init -u $(manifest_git) -b $(branch_git) -c"
 	-sudo sh -c "cd $(packages_path) && ./git-repo/repo sync --no-tags"

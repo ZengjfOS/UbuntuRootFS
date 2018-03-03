@@ -1,0 +1,21 @@
+#!/bin/bash
+
+export CROSS_COMPILE=arm-linux-gnueabihf-
+export AS=${CROSS_COMPILE}as
+export LD=${CROSS_COMPILE}ld
+export CC=${CROSS_COMPILE}gcc
+export CPP=${CC}g++
+export AR=${CROSS_COMPILE}ar
+export NM=${CROSS_COMPILE}nm
+export LDR=${CROSS_COMPILE}ldr
+export STRIP=${CROSS_COMPILE}strip
+export OBJCOPY=${CROSS_COMPILE}objcopy
+export OBJDUMP=${CROSS_COMPILE}objdump
+
+echo ${DESTDIR}
+for file in `find /root/packages/ -type f -iname "Makefile"`; do
+	make -C $(dirname "${file}") && make -C $(dirname "${file}") install
+done
+
+exit
+
