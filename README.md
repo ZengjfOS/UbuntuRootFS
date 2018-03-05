@@ -9,12 +9,13 @@
 类似仓库：
 * https://github.com/hypriot/os-rootfs
 * [drtyhlpr/rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image)  
-  **这个仓库可以重点分析，这是树莓派Debian系统合成方法**
+  **这个仓库可以重点分析，这是树莓派Debian系统合成方法，经测试，系统需要用Ubuntu 16.04版本，否则其中的一些package是装不上的。**
 
 ## Support System
 
 * Ubuntu 16.04(xenial)
 * Debian wheezy
+* Debian Stretch
 
 ## Refers
 
