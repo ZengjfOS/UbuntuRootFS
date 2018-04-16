@@ -110,6 +110,12 @@ package:
 qemu:
 	-sudo cp -v /usr/bin/qemu-arm-static $(target)/usr/bin
 
+sdimg:
+	-sudo rm images -rf
+	-mkdir images
+	sudo cp customize/prebuild/* images
+	sudo fakeroot ./customize/bin/common/post-image.sh
+
 mnt: qemu
 	sudo mount -v --bind /dev `pwd`/$(target)/dev
 	sudo mount -v --bind /dev/pts `pwd`/$(target)/dev/pts
@@ -129,3 +135,4 @@ bz2: umnt
 clean:
 	sudo rm rootfs -rf
 	sudo rm rootfs/root/packages -rf
+	sudo rm images
