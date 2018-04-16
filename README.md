@@ -49,18 +49,18 @@ Trusty是14.04的代号，Xenial是16.04的代号，两者的init程序是不一
 
 ## SD image
 
-Shell cmd: `sudo make sdimg`
-
-```
-aplex@aplex:~/zengjf/UbuntuRootFS/images$ sudo losetup -f --show sdcard.img
-/dev/loop0
-aplex@aplex:~/zengjf/UbuntuRootFS/images$ sudo kpartx -av /dev/loop0
-add map loop0p1 (253:0): 0 32768 linear 7:0 16384
-add map loop0p2 (253:1): 0 1399932 linear 7:0 49152
-aplex@aplex:~/zengjf/UbuntuRootFS$ ls /dev/mapper/
-control  loop0p1  loop0p2
-aplex@aplex:~/zengjf/UbuntuRootFS$ sudo mount /dev/mapper/loop0p2 /mnt
-aplex@aplex:~/zengjf/UbuntuRootFS$ ls /mnt
-bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
-aplex@aplex:~/zengjf/UbuntuRootFS$
-```
+* Shell cmd: `sudo make sdimg`
+* 查看打包后的方法：
+  ```Shell
+  aplex@aplex:~/zengjf/UbuntuRootFS/images$ sudo losetup -f --show sdcard.img
+  /dev/loop0
+  aplex@aplex:~/zengjf/UbuntuRootFS/images$ sudo kpartx -av /dev/loop0
+  add map loop0p1 (253:0): 0 32768 linear 7:0 16384
+  add map loop0p2 (253:1): 0 1399932 linear 7:0 49152
+  aplex@aplex:~/zengjf/UbuntuRootFS$ ls /dev/mapper/
+  control  loop0p1  loop0p2
+  aplex@aplex:~/zengjf/UbuntuRootFS$ sudo mount /dev/mapper/loop0p2 /mnt
+  aplex@aplex:~/zengjf/UbuntuRootFS$ ls /mnt
+  bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+  aplex@aplex:~/zengjf/UbuntuRootFS$
+  ```
