@@ -11,7 +11,7 @@ echo "root:root" | chpasswd
 
 # add user
 USER_NAME="aplexos"
-USER_PASSWD="aplexos"
+USER_PASSWD=`perl -e "print crypt('aplexos','sa');"`
 echo "default username and passwd: ${USER_NAME} ${USER_PASSWD}"
 useradd -m -p $USER_PASSWD $USER_NAME 
 # add super user

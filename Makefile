@@ -1,12 +1,12 @@
-system_type=debian
-# system_type=ubuntu
+# system_type=debian
+ system_type=ubuntu
 
-ftp_url = http://ftp.debian.org/debian/
-# ftp_url = http://ports.ubuntu.com
+# ftp_url = http://ftp.debian.org/debian/
+ftp_url = http://ports.ubuntu.com
 
 # distro = wheezy
-# distro = xenial
-distro = stretch
+distro = xenial
+# distro = stretch
 
 target = rootfs
 
@@ -135,4 +135,4 @@ bz2: umnt
 clean:
 	sudo rm rootfs -rf
 	sudo rm rootfs/root/packages -rf
-	sudo rm images
+	sudo rm images -rf

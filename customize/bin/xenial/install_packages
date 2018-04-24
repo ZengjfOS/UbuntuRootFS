@@ -17,5 +17,6 @@ apt-get -y install busybox
 apt-get -y install php7.0-cgi
 apt-get -y install make
 apt-get -y install git
+apt-get -y install auditd audispd-plugins
 
 echo "end install packages."
